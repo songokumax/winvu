@@ -52,10 +52,10 @@ EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
 
 parted "$EXTRACTED_IMG" print
 
-echo "Kiểm tra và sửa GPT trong image nếu cần..."
-echo -e "v\nw\ny\n" | gdisk "$EXTRACTED_IMG" || true
+#echo "Kiểm tra và sửa GPT trong image nếu cần..."
+#echo -e "v\nw\ny\n" | gdisk "$EXTRACTED_IMG" || true
 
-parted "$EXTRACTED_IMG" print
+#parted "$EXTRACTED_IMG" print
 
 echo " Ghi image vào /dev/vda..."
 dd if="$EXTRACTED_IMG" of=/dev/vda bs=4M status=progress
