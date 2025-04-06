@@ -27,7 +27,7 @@ case "$choice" in
     ;;
   3)
     echo "Đang tải Windows Server 2019..."
-    wget -O /mnt/windows.gz "wget -O /mnt/windows.gz "http://178.128.56.228/filewin/WindowsServer2019img.gz"
+    wget -O /mnt/windows.gz "http://178.128.56.228/filewin/WindowsServer2019img.gz"
     ;;
   *)
     echo "Lựa chọn không hợp lệ. Vui lòng chạy lại script và chọn 1, 2 hoặc 3."
