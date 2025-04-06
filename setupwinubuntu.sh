@@ -36,6 +36,7 @@ case "$choice" in
 esac
 
 echo "Cài đặt p7zip..."
+sudo apt update
 sudo apt install -y p7zip-full
 
 echo "Giải nén file..."
@@ -44,7 +45,7 @@ echo "Giải nén file..."
 # Lấy tên file ISO/IMG sau khi giải nén (giả sử chỉ có 1 file)
 EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
 
-echo " Ghi image vào /dev/vda..."
+echo "Ghi image vào /dev/vda..."
 dd if="$EXTRACTED_IMG" of=/dev/vda bs=4M status=progress
 
 echo "Dọn dẹp..."
@@ -52,7 +53,7 @@ rm -f windows.gz
 
 cd
 
-echo " Tháo gắn kết /mnt..."
+echo "Tháo gắn kết /mnt..."
 umount /dev/vda2
 
 echo "Hoàn tất! Bạn có thể khởi động lại máy."
