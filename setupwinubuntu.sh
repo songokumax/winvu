@@ -19,7 +19,7 @@ read -p " Nhập lựa chọn (1-3): " choice
 case "$choice" in
   1)
     echo "Đang tải Windows Server 2012 R2..."
-    wget -O /mnt/windows.gz "https://www.dl.dropboxusercontent.com/scl/fi/27sykz4mzh7r9zdil0y4u/WindowsServer2012eximg.gz?rlkey=obelcx6ct57fr3m76vmvshas6&st=yjjh3vhv&dl=1"
+    wget -O /mnt/windows.gz "http://178.128.56.228/filewin/WindowsServer2012eximg.gz"
     ;;
   2)
     echo "Đang tải Windows Server 2016..."
