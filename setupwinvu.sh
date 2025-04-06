@@ -15,6 +15,7 @@ echo "Vui lòng chọn phiên bản Windows Server để tải:"
 echo "1. Windows Server 2012 R2"
 echo "2. Windows Server 2016"
 echo "3. Windows Server 2019"
+echo "4. Windows 10 Lite"
 read -p " Nhập lựa chọn (1-3): " choice
 
 case "$choice" in
@@ -30,8 +31,12 @@ case "$choice" in
     echo "Đang tải Windows Server 2019..."
     wget -O /mnt/windows.gz "http://178.128.56.228/filewin/WindowsServer2019img.gz"
     ;;
+  4)
+    echo "Đang tải Windows 10 lite..."
+    wget -O /mnt/windows.gz "http://157.245.59.126:8080/filewin/Windows10lite.gz"
+    ;;
   *)
-    echo "Lựa chọn không hợp lệ. Vui lòng chạy lại script và chọn 1, 2 hoặc 3."
+    echo "Lựa chọn không hợp lệ. Vui lòng chạy lại script và chọn 1, 2, 3 hoặc 4."
     exit 1
     ;;
 esac
