@@ -46,7 +46,7 @@ echo "Giải nén file..."
 EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
 
 echo "Kiểm tra và sửa GPT trong image nếu cần..."
-echo -e "v\nw\n" | gdisk "$EXTRACTED_IMG" || true
+echo -e "v\nw\ny\n" | gdisk "$EXTRACTED_IMG" || true
 
 echo " Ghi image vào /dev/vda..."
 dd if="$EXTRACTED_IMG" of=/dev/vda bs=4M status=progress
