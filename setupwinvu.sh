@@ -9,6 +9,7 @@ echo "Gắn phân vùng /dev/vda2 vào /mnt..."
 mount /dev/vda2 /mnt
 
 cd /mnt
+ls
 
 echo "Vui lòng chọn phiên bản Windows Server để tải:"
 echo "1. Windows Server 2012 R2"
