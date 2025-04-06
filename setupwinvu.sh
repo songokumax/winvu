@@ -19,7 +19,7 @@ read -p " Nhập lựa chọn (1-3): " choice
 case "$choice" in
   1)
     echo "Đang tải Windows Server 2012 R2..."
-    wget -O /mnt/windows.gz "https://www.dl.dropboxusercontent.com/scl/fi/27sykz4mzh7r9zdil0y4u/WindowsServer2012eximg.gz?rlkey=obelcx6ct57fr3m76vmvshas6&st=yjjh3vhv&dl=1"
+    wget -O /mnt/windows.gz "http://178.128.56.228/filewin/WindowsServer2012eximg.gz"
     ;;
   2)
     echo "Đang tải Windows Server 2016..."
@@ -27,7 +27,7 @@ case "$choice" in
     ;;
   3)
     echo "Đang tải Windows Server 2019..."
-    wget -O /mnt/windows.gz "https://www.dl.dropboxusercontent.com/scl/fi/cesxgcbi1mex1owk7ag6m/WindowsServer2019img.gz?rlkey=18dhx3soe2pfp28jfv8n1jz91"
+    wget -O /mnt/windows.gz "http://178.128.56.228/filewin/WindowsServer2019img.gz"
     ;;
   *)
     echo "Lựa chọn không hợp lệ. Vui lòng chạy lại script và chọn 1, 2 hoặc 3."
@@ -43,6 +43,9 @@ echo "Giải nén file..."
 
 # Lấy tên file ISO/IMG sau khi giải nén (giả sử chỉ có 1 file)
 EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
+
+echo "Kiểm tra và sửa GPT trong image nếu cần..."
+echo -e "v\nw\n" | gdisk "$EXTRACTED_IMG" || true
 
 echo " Ghi image vào /dev/vda..."
 dd if="$EXTRACTED_IMG" of=/dev/vda bs=4M status=progress
