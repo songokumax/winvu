@@ -25,7 +25,7 @@ case "$choice" in
     ;;
   2)
     echo "Đang tải Windows Server 2016..."
-    wget -O /mnt/windows.gz "https://dl.dropboxusercontent.com/scl/fi/ph9qm3ksedpx1bpxiqpi2/WindowsServer2016img.gz?rlkey=0pqm4qv0ryct4ukaspt4khwhq&st=lssf67qb"
+    wget -O /mnt/windows.gz "http://157.245.59.126:8080/filewin/WindowsServer2016img.gz"
     ;;
   3)
     echo "Đang tải Windows Server 2019..."
