@@ -24,19 +24,19 @@ read -p " Nhập lựa chọn (1-3): " choice
 case "$choice" in
   1)
     echo "Đang tải Windows Server 2012 R2..."
-    wget -O /mnt/windows.gz "http://178.128.56.228/filewin/WindowsServer2012eximg.gz"
+    wget -O /mnt/windows.img.gz "http://178.128.56.228/filewin/WindowsServer2012eximg.gz"
     ;;
   2)
     echo "Đang tải Windows Server 2016..."
-    wget -O /mnt/windows.gz "http://157.245.59.126:8080/filewin/WindowsServer2016img.gz"
+    wget -O /mnt/windows.img.gz "http://157.245.59.126:8080/filewin/WindowsServer2016img.gz"
     ;;
   3)
     echo "Đang tải Windows Server 2019..."
-    wget -O /mnt/windows.gz "http://178.128.56.228/filewin/WindowsServer2019img.gz"
+    wget -O /mnt/windows.img.gz "http://178.128.56.228/filewin/WindowsServer2019img.gz"
     ;;
   4)
     echo "Đang tải Windows 10 lite..."
-    wget -O /mnt/windows.gz "http://157.245.59.126:8080/filewin/Windows10lite.gz"
+    wget -O /mnt/windows.img.gz "http://157.245.59.126:8080/filewin/Windows10lite.gz"
     ;;
   *)
     echo "Lựa chọn không hợp lệ. Vui lòng chạy lại script và chọn 1, 2, 3 hoặc 4."
@@ -44,11 +44,12 @@ case "$choice" in
     ;;
 esac
 
-echo "Cài đặt p7zip..."
-yes | pacman -Sy p7zip
+#echo "Cài đặt p7zip..."
+#yes | pacman -Sy p7zip
 
 echo "Giải nén file..."
-7z x windows.gz
+gunzip windows.img.gz
+#7z x windows.img.gz
 
 # Lấy tên file ISO/IMG sau khi giải nén (giả sử chỉ có 1 file)
 EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
@@ -63,8 +64,8 @@ parted "$EXTRACTED_IMG" print
 echo " Ghi image vào /dev/vda..."
 dd if="$EXTRACTED_IMG" of=/dev/vda bs=4M status=progress
 
-echo "Dọn dẹp..."
-rm -f windows.gz
+#echo "Dọn dẹp..."
+#rm -f windows.gz
 
 cd
 
