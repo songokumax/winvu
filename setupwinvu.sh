@@ -2,6 +2,9 @@
 
 set -e  # Dừng script nếu có lỗi
 
+echo "Update hệ thống..."
+pacman -Sy
+
 echo "Kiểm tra các phân vùng..."
 lsblk
 
