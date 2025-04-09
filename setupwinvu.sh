@@ -64,8 +64,8 @@ parted "$EXTRACTED_IMG" print
 echo " Ghi image vào /dev/vda..."
 dd if="$EXTRACTED_IMG" of=/dev/vda bs=4M status=progress
 
-#echo "Dọn dẹp..."
-#rm -f windows.gz
+echo "Dọn dẹp..."
+rm -f "$EXTRACTED_IMG"
 
 cd
 
