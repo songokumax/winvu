@@ -19,8 +19,7 @@ echo "1. Windows Server 2012 R2"
 echo "2. Windows Server 2016"
 echo "3. Windows Server 2019"
 echo "4. Windows 10 Lite"
-echo "5. Windows 7"
-read -p " Nhập lựa chọn (1-5): " choice
+read -p " Nhập lựa chọn (1-4): " choice
 
 case "$choice" in
   1)
@@ -38,10 +37,6 @@ case "$choice" in
   4)
     echo "Đang tải Windows 10 lite..."
     wget -O /mnt/windows.img.gz "http://157.245.59.126:8080/filewin/Windows10lite.gz"
-    ;;
-  5)
-    echo "Đang tải Windows 7..."
-    wget -O /mnt/windows.img.gz "http://157.245.59.126:8080/filewin/Windows7x64.img.gz"
     ;;
   *)
     echo "Lựa chọn không hợp lệ. Vui lòng chạy lại script và chọn 1, 2, 3, 4 hoặc 5."
