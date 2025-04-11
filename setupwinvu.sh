@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e  # Dừng script nếu có lỗi
+set -e
 
 echo "Update hệ thống..."
 pacman -Sy
@@ -21,51 +21,48 @@ echo "3. Windows Server 2019"
 echo "4. Windows 10 Lite"
 read -p " Nhập lựa chọn (1-4): " choice
 
-case "$choice" in
-  1)
-    echo "Đang tải Windows Server 2012 R2..."
-    wget -O /mnt/windows.img.gz "http://178.128.56.228/filewin/WindowsServer2012eximg.gz"
-    ;;
-  2)
-    echo "Đang tải Windows Server 2016..."
-    wget -O /mnt/windows.img.gz "http://157.245.59.126:8080/filewin/WindowsServer2016img.gz"
-    ;;
-  3)
-    echo "Đang tải Windows Server 2019..."
-    wget -O /mnt/windows.img.gz "http://178.128.56.228/filewin/WindowsServer2019img.gz"
-    ;;
-  4)
-    echo "Đang tải Windows 10 lite..."
-    wget -O /mnt/windows.img.gz "http://157.245.59.126:8080/filewin/Windows10lite.gz"
-    ;;
-  *)
-    echo "Lựa chọn không hợp lệ. Vui lòng chạy lại script và chọn 1, 2, 3, 4 hoặc 5."
-    exit 1
-    ;;
-esac
+# Đường dẫn file TXT chứa danh sách link (thay thế bằng link GitHub thật của bạn)
+LINK_LIST_URL="https://raw.githubusercontent.com/songokumax/winvu/main/winlist.txt"
 
-#echo "Cài đặt p7zip..."
-#yes | pacman -Sy p7zip
+echo "Tải danh sách link..."
+curl -sSL "$LINK_LIST_URL" -o linklist.txt
+
+echo "Tìm link phù hợp với lựa chọn $choice..."
+
+DOWNLOAD_URL=""
+while IFS="|" read -r url ver; do
+    if [[ "$ver" == "$choice" ]]; then
+        echo -n "Kiểm tra link: $url ... "
+        if curl --head --silent --fail "$url" > /dev/null; then
+            echo "OK"
+            DOWNLOAD_URL="$url"
+            break
+        else
+            echo "die"
+        fi
+    fi
+done < linklist.txt
+
+if [[ -z "$DOWNLOAD_URL" ]]; then
+    echo "Không tìm được link hoạt động cho phiên bản bạn chọn!"
+    exit 1
+fi
+
+echo "Đang tải file từ: $DOWNLOAD_URL"
+wget -O /mnt/windows.img.gz "$DOWNLOAD_URL"
 
 echo "Giải nén file..."
 gunzip windows.img.gz
-#7z x windows.img.gz
 
-# Lấy tên file ISO/IMG sau khi giải nén (giả sử chỉ có 1 file)
 EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
 
 parted "$EXTRACTED_IMG" print
-
-#echo "Kiểm tra và sửa GPT trong image nếu cần..."
-#echo -e "v\nw\ny\n" | gdisk "$EXTRACTED_IMG" || true
-
-#parted "$EXTRACTED_IMG" print
 
 echo " Ghi image vào /dev/vda..."
 dd if="$EXTRACTED_IMG" of=/dev/vda bs=4M status=progress
 
 echo "Dọn dẹp..."
-rm -f "$EXTRACTED_IMG"
+rm -f "$EXTRACTED_IMG" linklist.txt
 
 cd
 
