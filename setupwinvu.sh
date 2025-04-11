@@ -22,7 +22,7 @@ echo "4. Windows 10 Lite"
 read -p " Nhập lựa chọn (1-4): " choice
 
 # Đường dẫn file TXT chứa danh sách link (thay thế bằng link GitHub thật của bạn)
-LINK_LIST_URL="https://raw.githubusercontent.com/songokumax/winvu/main/winlist.txt"
+LINK_LIST_URL="https://raw.githubusercontent.com/songokumax/winvu/refs/heads/main/linkwin.txt"
 
 echo "Tải danh sách link..."
 curl -sSL "$LINK_LIST_URL" -o linklist.txt
