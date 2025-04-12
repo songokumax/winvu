@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-
+sleep 5
 echo "Kiểm tra các phân vùng..."
 lsblk
 
@@ -21,7 +21,7 @@ mount /dev/vda2 /mnt
 
 echo "Update hệ thống..."
 pacman -Sy
-
+sleep 2
 cd /mnt
 ls
 
@@ -36,8 +36,8 @@ read -p " Nhập lựa chọn (1-4): " choice
 LINK_LIST_URL="https://raw.githubusercontent.com/songokumax/winvu/refs/heads/main/linkwin.txt"
 
 echo "Tải danh sách link..."
-sleep 2
-wget -q "https://raw.githubusercontent.com/songokumax/winvu/refs/heads/main/linkwin.txt" -O linklist.txt
+sleep 3
+wget -q "$LINK_LIST_URL" -O linklist.txt
 
 echo "Tìm link phù hợp với lựa chọn $choice..."
 
@@ -45,7 +45,7 @@ DOWNLOAD_URL=""
 while IFS="|" read -r url ver; do
     if [[ "$ver" == "$choice" ]]; then
         echo -n "Kiểm tra link: $url ... "
-        sleep 2
+        sleep 3
         if wget --spider -q "$url"; then
             echo "OK"
             DOWNLOAD_URL="$url"
@@ -62,7 +62,7 @@ if [[ -z "$DOWNLOAD_URL" ]]; then
 fi
 
 echo "Đang tải file từ: $DOWNLOAD_URL"
-sleep 2
+sleep 3
 wget -O /mnt/windows.img.gz "$DOWNLOAD_URL"
 
 echo "Giải nén file..."
