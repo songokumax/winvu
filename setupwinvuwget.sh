@@ -5,19 +5,19 @@ set -e
 echo "Kiểm tra các phân vùng..."
 lsblk
 
-parted --script /dev/vda mklabel gpt
+#parted --script /dev/vda mklabel gpt
 
 # Tạo một phân vùng duy nhất chiếm toàn bộ dung lượng
-parted --script /dev/vda mkpart primary ext4 0% 100%
+#parted --script /dev/vda mkpart primary ext4 0% 100%
 
 # Đợi hệ thống cập nhật thiết bị mới
 sleep 2
 
 # Format phân vùng vừa tạo (thường là /dev/vda1)
-mkfs.ext4 -F /dev/vda1
+#mkfs.ext4 -F /dev/vda1
 
 # Mount phân vùng vào /mnt
-mount /dev/vda1 /mnt
+mount /dev/vda2 /mnt
 
 echo "Update hệ thống..."
 pacman -Sy
@@ -36,32 +36,8 @@ read -p " Nhập lựa chọn (1-4): " choice
 LINK_LIST_URL="https://raw.githubusercontent.com/songokumax/winvu/refs/heads/main/linkwin.txt"
 
 echo "Tải danh sách link..."
-#wget -q "$LINK_LIST_URL" -O linklist.txt
-# Tải danh sách link với vòng lặp kiểm tra nếu tải không thành công
-MAX_RETRIES=5  # Số lần thử lại tối đa
-RETRY_COUNT=0  # Biến đếm số lần thử lại
-
-while [[ $RETRY_COUNT -lt $MAX_RETRIES ]]; do
-    
-    # Sử dụng wget với kiểm tra trạng thái
-    wget -q --tries=1 "$LINK_LIST_URL" -O linklist.txt
-    
-    # Kiểm tra mã trạng thái exit của wget
-    if [[ $? -eq 0 ]]; then
-        echo "Tải file thành công!"
-        break
-    else
-        echo "Tải file thất bại, thử lại lần $((RETRY_COUNT+1))/$MAX_RETRIES..."
-        ((RETRY_COUNT++))
-        sleep 5  # Nghỉ 5 giây trước khi thử lại
-    fi
-done
-
-# Kiểm tra nếu tải không thành công sau MAX_RETRIES lần
-if [[ $RETRY_COUNT -eq $MAX_RETRIES ]]; then
-    echo "Tải file thất bại sau $MAX_RETRIES lần thử. Dừng script."
-    exit 1
-fi
+sleep 2
+wget -q "https://raw.githubusercontent.com/songokumax/winvu/refs/heads/main/linkwin.txt" -O linklist.txt
 
 echo "Tìm link phù hợp với lựa chọn $choice..."
 
@@ -103,6 +79,6 @@ rm -f "$EXTRACTED_IMG" linklist.txt
 cd
 
 echo " Tháo gắn kết /mnt..."
-umount /dev/vda1
+umount /dev/vda2
 
 echo "Hoàn tất! Bạn có thể khởi động lại máy."
