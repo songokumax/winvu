@@ -10,7 +10,7 @@ lsblk
 
 echo "Gắn phân vùng /dev/vda2 vào /mnt..."
 mount /dev/vda2 /mnt
-
+sleep 2
 cd /mnt
 ls
 
@@ -23,8 +23,8 @@ read -p " Nhập lựa chọn (1-4): " choice
 
 # Đường dẫn file TXT chứa danh sách link (thay thế bằng link GitHub thật của bạn)
 LINK_LIST_URL="https://raw.githubusercontent.com/songokumax/winvu/refs/heads/main/linkwin.txt"
-
 echo "Tải danh sách link..."
+sleep 3
 curl -sSL "$LINK_LIST_URL" -o linklist.txt
 
 echo "Tìm link phù hợp với lựa chọn $choice..."
@@ -33,6 +33,7 @@ DOWNLOAD_URL=""
 while IFS="|" read -r url ver; do
     if [[ "$ver" == "$choice" ]]; then
         echo -n "Kiểm tra link: $url ... "
+        sleep 3
         if curl --head --silent --fail "$url" > /dev/null; then
             echo "OK"
             DOWNLOAD_URL="$url"
@@ -49,13 +50,14 @@ if [[ -z "$DOWNLOAD_URL" ]]; then
 fi
 
 echo "Đang tải file từ: $DOWNLOAD_URL"
+sleep 3
 wget -O /mnt/windows.img.gz "$DOWNLOAD_URL"
 
 echo "Giải nén file..."
 gunzip windows.img.gz
 
 EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
-
+sleep 2
 parted "$EXTRACTED_IMG" print
 
 echo " Ghi image vào /dev/vda..."
