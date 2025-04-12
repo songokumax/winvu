@@ -42,7 +42,12 @@ MAX_RETRIES=5  # Số lần thử lại tối đa
 RETRY_COUNT=0  # Biến đếm số lần thử lại
 
 while [[ $RETRY_COUNT -lt $MAX_RETRIES ]]; do
-    if wget -q "$LINK_LIST_URL" -O linklist.txt; then
+    
+    # Sử dụng wget với kiểm tra trạng thái
+    wget -q --tries=1 "$LINK_LIST_URL" -O linklist.txt
+    
+    # Kiểm tra mã trạng thái exit của wget
+    if [[ $? -eq 0 ]]; then
         echo "Tải file thành công!"
         break
     else
