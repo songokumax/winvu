@@ -45,6 +45,7 @@ DOWNLOAD_URL=""
 while IFS="|" read -r url ver; do
     if [[ "$ver" == "$choice" ]]; then
         echo -n "Kiểm tra link: $url ... "
+        sleep 2
         if wget --spider -q "$url"; then
             echo "OK"
             DOWNLOAD_URL="$url"
