@@ -2,14 +2,25 @@
 
 set -e
 
-echo "Update hệ thống..."
-pacman -Sy
-
 echo "Kiểm tra các phân vùng..."
 lsblk
 
-echo "Gắn phân vùng /dev/vda2 vào /mnt..."
-mount /dev/vda2 /mnt
+parted --script /dev/vda mklabel gpt
+
+# Tạo một phân vùng duy nhất chiếm toàn bộ dung lượng
+parted --script /dev/vda mkpart primary ext4 0% 100%
+
+# Đợi hệ thống cập nhật thiết bị mới
+sleep 2
+
+# Format phân vùng vừa tạo (thường là /dev/vda1)
+mkfs.ext4 -F /dev/vda1
+
+# Mount phân vùng vào /mnt
+mount /dev/vda1 /mnt
+
+echo "Update hệ thống..."
+pacman -Sy
 
 cd /mnt
 ls
@@ -67,6 +78,6 @@ rm -f "$EXTRACTED_IMG" linklist.txt
 cd
 
 echo " Tháo gắn kết /mnt..."
-umount /dev/vda2
+umount /dev/vda1
 
 echo "Hoàn tất! Bạn có thể khởi động lại máy."
