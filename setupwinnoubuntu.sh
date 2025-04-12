@@ -36,7 +36,7 @@ read -p " Nhập lựa chọn (1-4): " choice
 LINK_LIST_URL="https://raw.githubusercontent.com/songokumax/winvu/refs/heads/main/linkwin.txt"
 
 echo "Tải danh sách link..."
-curl -sSL "$LINK_LIST_URL" -o linklist.txt
+curl -4 -sSL "$LINK_LIST_URL" -o linklist.txt
 
 echo "Tìm link phù hợp với lựa chọn $choice..."
 
