@@ -61,6 +61,7 @@ if [[ -z "$DOWNLOAD_URL" ]]; then
 fi
 
 echo "Đang tải file từ: $DOWNLOAD_URL"
+sleep 2
 wget -O /mnt/windows.img.gz "$DOWNLOAD_URL"
 
 echo "Giải nén file..."
