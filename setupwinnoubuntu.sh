@@ -2,8 +2,8 @@
 
 set -e
 
-echo "Update hệ thống..."
-pacman -Sy
+#echo "Update hệ thống..."
+#pacman -Sy
 
 echo "Kiểm tra các phân vùng..."
 lsblk
