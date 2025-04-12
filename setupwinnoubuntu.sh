@@ -2,9 +2,6 @@
 
 set -e
 
-#echo "Update hệ thống..."
-#pacman -Sy
-
 echo "Kiểm tra các phân vùng..."
 lsblk
 
@@ -21,6 +18,9 @@ mkfs.ext4 -F /dev/vda1
 
 # Mount phân vùng vào /mnt
 mount /dev/vda1 /mnt
+
+echo "Update hệ thống..."
+pacman -Sy
 
 cd /mnt
 ls
