@@ -5,20 +5,20 @@ sleep 5
 echo "Kiểm tra các phân vùng..."
 lsblk
 
-#parted --script /dev/vda mklabel gpt
+parted --script /dev/vda mklabel gpt
 
-# Tạo một phân vùng duy nhất chiếm toàn bộ dung lượng
-#parted --script /dev/vda mkpart primary ext4 0% 100%
+#Tạo một phân vùng duy nhất chiếm toàn bộ dung lượng
+parted --script /dev/vda mkpart primary ext4 0% 100%
 
 # Đợi hệ thống cập nhật thiết bị mới
 sleep 2
 
 # Format phân vùng vừa tạo (thường là /dev/vda1)
-#mkfs.ext4 -F /dev/vda1
-
+mkfs.ext4 -F /dev/vda1
+sleep 2
 # Mount phân vùng vào /mnt
-mount /dev/vda2 /mnt
-
+mount /dev/vda1 /mnt
+sleep 2
 echo "Update hệ thống..."
 pacman -Sy
 sleep 2
@@ -69,7 +69,7 @@ echo "Giải nén file..."
 gunzip windows.img.gz
 
 EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
-
+sleep 2
 parted "$EXTRACTED_IMG" print
 
 echo " Ghi image vào /dev/vda..."
@@ -81,6 +81,6 @@ rm -f "$EXTRACTED_IMG" linklist.txt
 cd
 
 echo " Tháo gắn kết /mnt..."
-umount /dev/vda2
+umount /dev/vda1
 
 echo "Hoàn tất! Bạn có thể khởi động lại máy."
