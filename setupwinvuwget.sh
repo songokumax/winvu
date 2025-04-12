@@ -36,7 +36,27 @@ read -p " Nhập lựa chọn (1-4): " choice
 LINK_LIST_URL="https://raw.githubusercontent.com/songokumax/winvu/refs/heads/main/linkwin.txt"
 
 echo "Tải danh sách link..."
-wget -q "$LINK_LIST_URL" -O linklist.txt
+#wget -q "$LINK_LIST_URL" -O linklist.txt
+# Tải danh sách link với vòng lặp kiểm tra nếu tải không thành công
+MAX_RETRIES=5  # Số lần thử lại tối đa
+RETRY_COUNT=0  # Biến đếm số lần thử lại
+
+while [[ $RETRY_COUNT -lt $MAX_RETRIES ]]; do
+    if wget -q "$LINK_LIST_URL" -O linklist.txt; then
+        echo "Tải file thành công!"
+        break
+    else
+        echo "Tải file thất bại, thử lại lần $((RETRY_COUNT+1))/$MAX_RETRIES..."
+        ((RETRY_COUNT++))
+        sleep 5  # Nghỉ 5 giây trước khi thử lại
+    fi
+done
+
+# Kiểm tra nếu tải không thành công sau MAX_RETRIES lần
+if [[ $RETRY_COUNT -eq $MAX_RETRIES ]]; then
+    echo "Tải file thất bại sau $MAX_RETRIES lần thử. Dừng script."
+    exit 1
+fi
 
 echo "Tìm link phù hợp với lựa chọn $choice..."
 
