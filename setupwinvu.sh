@@ -9,7 +9,25 @@ echo "Kiểm tra các phân vùng..."
 lsblk
 
 echo "Gắn phân vùng /dev/vda2 vào /mnt..."
+#mount /dev/vda2 /mnt
+# Kiểm tra nếu /dev/vda2 đã được mount thì unmount trước
+if mount | grep -q "/dev/vda2"; then
+    echo "/dev/vda2 đang được mount, thực hiện umount..."
+    umount /dev/vda2
+    sleep 2
+fi
+
+# Kiểm tra nếu /mnt đang có phân vùng nào mount thì cũng unmount luôn
+if mount | grep -q "on /mnt "; then
+    echo "/mnt đang có phân vùng được gắn, thực hiện umount /mnt..."
+    umount /mnt
+    sleep 1
+fi
+
+# Mount lại /dev/vda2 vào /mnt
+sleep 1
 mount /dev/vda2 /mnt
+
 sleep 2
 cd /mnt
 ls
