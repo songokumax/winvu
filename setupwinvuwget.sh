@@ -4,20 +4,31 @@ set -e
 sleep 5
 echo "Kiểm tra các phân vùng..."
 lsblk
+parted /dev/vda --script mklabel gpt
+sleep 2
+parted /dev/vda --script mkpart ESP fat32 1MiB 513MiB
+parted /dev/vda --script set 1 boot on
+parted /dev/vda --script set 1 esp on
+parted /dev/vda --script mkpart primary ext4 513MiB 100%
+sleep 2
+mkfs.fat -F32 /dev/vda1   # EFI System Partition
+mkfs.ext4 /dev/vda2       # Root partition
+sleep 2
+lsblk
 
-parted --script /dev/vda mklabel gpt
+#parted --script /dev/vda mklabel gpt
 
 #Tạo một phân vùng duy nhất chiếm toàn bộ dung lượng
-parted --script /dev/vda mkpart primary ext4 0% 100%
+#parted --script /dev/vda mkpart primary ext4 0% 100%
 
 # Đợi hệ thống cập nhật thiết bị mới
-sleep 2
+#sleep 2
 
 # Format phân vùng vừa tạo (thường là /dev/vda1)
-mkfs.ext4 -F /dev/vda1
-sleep 2
+#mkfs.ext4 -F /dev/vda1
+#sleep 2
 # Mount phân vùng vào /mnt
-mount /dev/vda1 /mnt
+mount /dev/vda2 /mnt
 sleep 2
 echo "Update hệ thống..."
 pacman -Sy
@@ -81,6 +92,6 @@ rm -f "$EXTRACTED_IMG" linklist.txt
 cd
 
 echo " Tháo gắn kết /mnt..."
-umount /dev/vda1
+umount /dev/vda2
 
 echo "Hoàn tất! Bạn có thể khởi động lại máy."
