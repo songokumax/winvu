@@ -2,19 +2,35 @@
 
 set -e
 
-# Màu đỏ
-RED='\033[1;31m'
-NC='\033[0m'
+# Màu đỏ đậm
+RED_BOLD=$'\033[1;31;1m'
+NC=$'\033[0m'
 
-# Dòng chữ muốn in
-message="=== Script By Thanh Quang Nguyen ==="
+# Nội dung
+text="=== Script By Thanh Quang Nguyen ==="
 
-# Tính chiều rộng terminal và padding để căn giữa
-cols=$(tput cols)
-padding=$(( (cols - ${#message}) / 2 ))
+# Tính chiều dài terminal và khung
+term_width=$(tput cols)
+box_width=$(( ${#text} + 10 ))
 
-# In ra dòng màu đỏ, căn giữa
-printf "%*s%s%s\n" "$padding" "" "${RED}${message}" "${NC}"
+# Nếu terminal nhỏ, thu nhỏ box lại
+if (( box_width > term_width )); then
+  box_width=$(( ${#text} + 4 ))
+fi
+
+# Căn giữa cả khung trong terminal
+left_pad=$(( (term_width - box_width) / 2 ))
+
+# Tính padding nội dung trong khung
+text_pad=$(( (box_width - 2 - ${#text}) / 2 ))
+
+# Tạo viền trên/dưới
+border=$(printf '+%*s+' $((box_width - 2)) '' | tr ' ' '-')
+
+# In kết quả
+printf "%*s%s%s\n" "$left_pad" "" "${RED_BOLD}" "$border"
+printf "%*s|%*s%s%*s|\n" "$left_pad" "" "$text_pad" "" "$text" "$text_pad" ""
+printf "%*s%s%s\n" "$left_pad" "" "$border" "$NC"
 
 #echo "Script By Thanh Quang Nguyen"
 echo "Update hệ thống..."
