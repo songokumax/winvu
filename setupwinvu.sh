@@ -1,7 +1,22 @@
 #!/bin/bash
 
 set -e
-echo "Script By Thanh Quang Nguyen"
+
+# Màu đỏ
+RED='\033[1;31m'
+NC='\033[0m'
+
+# Dòng chữ muốn in
+message="=== Script By Thanh Quang Nguyen ==="
+
+# Tính chiều rộng terminal và padding để căn giữa
+cols=$(tput cols)
+padding=$(( (cols - ${#message}) / 2 ))
+
+# In ra dòng màu đỏ, căn giữa
+printf "%*s%s%s\n" "$padding" "" "${RED}${message}" "${NC}"
+
+#echo "Script By Thanh Quang Nguyen"
 echo "Update hệ thống..."
 pacman -Sy
 
