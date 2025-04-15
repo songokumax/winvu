@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-
+echo "Script By Thanh Quang Nguyen"
 echo "Update hệ thống..."
 pacman -Sy
 
