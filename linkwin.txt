@@ -18,4 +18,3 @@ https://www.dropbox.com/scl/fi/x5n8f0ouo8lcaa334slaz/Windows10lite.gz?rlkey=3ckd
 https://www.dropbox.com/scl/fi/o7flmzsy67c8ntbt4lf97/Windows10lite.gz?rlkey=cvsg5ep0x5ak5p614ybzbvv0d&st=q473vc3l&dl=1|4
 https://www.dropbox.com/scl/fi/421cv228vrt11xxwu4rlj/Windows10lite.gz?rlkey=5ihs8y2om4q946xdyedwsy08h&st=fejpy2eg&dl=1|4
 https://www.dropbox.com/scl/fi/5wa5rsnswlad6r06zhuj4/Windows10lite.gz?rlkey=zpbj8e9v11in29x39degckfsd&st=7971by0q&dl=1|4
-http://157.245.59.126:8080/filewin/Windows11x64.img.gz|5
