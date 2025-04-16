@@ -39,11 +39,11 @@ pacman -Sy
 echo "Kiểm tra các phân vùng..."
 lsblk
 
-echo "Gắn phân vùng /dev/vda2 vào /mnt..."
+echo "Gắn phân vùng vào /mnt..."
 #mount /dev/vda2 /mnt
 # Kiểm tra nếu /dev/vda2 đã được mount thì unmount trước
 if mount | grep -q "/dev/vda2"; then
-    echo "/dev/vda2 đang được mount, thực hiện umount..."
+    echo "ổ đĩa đang được mount, thực hiện umount..."
     umount /dev/vda2
     sleep 2
 fi
@@ -72,7 +72,7 @@ read -p " Nhập lựa chọn (1-4): " choice
 
 # Đường dẫn file TXT chứa danh sách link (thay thế bằng link GitHub thật của bạn)
 LINK_LIST_URL="https://raw.githubusercontent.com/songokumax/winvu/refs/heads/main/linkwin.txt"
-echo "Tải danh sách link..."
+echo "Tải danh sách win..."
 sleep 3
 curl -sSL "$LINK_LIST_URL" -o linklist.txt
 
@@ -109,7 +109,7 @@ EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
 sleep 2
 parted "$EXTRACTED_IMG" print
 
-echo " Ghi image vào /dev/vda..."
+echo " Ghi image vào ổ đĩa..."
 dd if="$EXTRACTED_IMG" of=/dev/vda bs=4M status=progress
 
 echo "Dọn dẹp..."
