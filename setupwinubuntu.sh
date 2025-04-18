@@ -1,5 +1,4 @@
 #!/bin/bash
-#set -e
 
 # --- Chọn phiên bản Windows trước khi vào RAM ---
 if [[ -n "$1" && "$1" =~ ^[1-4]$ ]]; then
@@ -43,24 +42,37 @@ fi
 mkdir -p /mnt/ramroot
 mount -t tmpfs -o size=512M tmpfs /mnt/ramroot
 mkdir -p /mnt/ramroot/{bin,sbin,lib,lib64,proc,sys,dev,run,tmp,old_root}
-
+sleep 2
 # Copy busybox và tạo symlink
 cp /bin/busybox /mnt/ramroot/bin/
 cd /mnt/ramroot/bin
 for i in $(./busybox --list); do ln -s busybox $i 2>/dev/null || true; done
-
+sleep 2
 # Mount các hệ thống cần thiết
 mount --bind /dev /mnt/ramroot/dev
 mount --bind /proc /mnt/ramroot/proc
 mount --bind /sys /mnt/ramroot/sys
+sleep 2
+# Ghi script riêng trong RAM root để tránh xung đột
+cat <<EOF > /mnt/ramroot/write.sh
+#!/bin/sh
+export URL="$DOWNLOAD_URL"
+mkdir -p /etc
+echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+sleep 2
+echo "[*] Đang ghi file image vào /dev/vda ..."
+wget -O- "\$URL" | gunzip | dd of=/dev/vda bs=4M
+wait
+sync
+echo "[*] Ghi xong, sẽ reboot sau 5s"
+sleep 5
+reboot -f
+EOF
+
+chmod +x /mnt/ramroot/write.sh
 
 # Chuyển root sang RAM và chroot
 cd /mnt/ramroot
 pivot_root . old_root || echo "pivot_root failed, continuing with chroot"
-exec chroot . /bin/sh <<'EOF'
-echo "[*] Now in RAM rootfs. Writing image to disk..."
-wget -O- \"$DOWNLOAD_URL\" | gunzip | dd of=/dev/vda bs=4M
-wait
-sync
-reboot -f
-EOF
+sleep 2
+chroot . /write.sh
