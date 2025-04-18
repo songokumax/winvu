@@ -57,7 +57,7 @@ mount --bind /sys /mnt/ramroot/sys
 # Chuyển root sang RAM và chroot
 cd /mnt/ramroot
 pivot_root . old_root || echo "pivot_root failed, continuing with chroot"
-exec chroot . /bin/sh -c "
+chroot . /bin/sh -c "
   mkdir -p /etc
   echo 'nameserver 8.8.8.8' > /etc/resolv.conf
   wget -O- \"$DOWNLOAD_URL\" | gunzip | dd of=/dev/vda bs=4M status=progress
