@@ -71,8 +71,12 @@ EOF
 
 chmod +x /mnt/ramroot/write.sh
 
-# Chuyển root sang RAM và chroot
 cd /mnt/ramroot
 pivot_root . old_root || echo "pivot_root failed, continuing with chroot"
+sleep 1
+# Ngắt toàn bộ liên kết với hệ thống cũ để tránh lỗi
+umount -l /old_root/{dev,proc,sys} 2>/dev/null || true
+umount -l /old_root 2>/dev/null || true
+fuser -k /dev/vda 2>/dev/null || true
 sleep 2
 chroot . /write.sh
