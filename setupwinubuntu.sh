@@ -63,6 +63,7 @@ chroot . /bin/sh -c "
   echo 'nameserver 8.8.8.8' > /etc/resolv.conf
   echo '>>> Bắt đầu ghi file vào disk...'
   wget -O- \"$DOWNLOAD_URL\" | gunzip | dd of=/dev/vda bs=4M || echo '❌ GHI LỖI'
+  wait
   echo '>>> Ghi xong, đang sync...'
   sync
   echo '>>> Sẽ reboot sau 5s'
