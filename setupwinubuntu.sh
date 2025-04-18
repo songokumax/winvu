@@ -47,7 +47,7 @@ mkdir -p /mnt/ramroot/{bin,sbin,lib,lib64,proc,sys,dev,run,tmp,old_root}
 # Copy busybox và tạo symlink
 cp /bin/busybox /mnt/ramroot/bin/
 cd /mnt/ramroot/bin
-for i in $(./busybox --list); do ln -s busybox $i; done
+for i in $(./busybox --list); do ln -s busybox $i 2>/dev/null || true; done
 
 # Mount các hệ thống cần thiết
 mount --bind /dev /mnt/ramroot/dev
