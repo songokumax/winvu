@@ -68,5 +68,6 @@ chroot . /bin/sh -c "
   sync
   echo '>>> Sẽ reboot sau 5s'
   sleep 5
+  reboot -f
  
 "
