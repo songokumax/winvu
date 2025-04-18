@@ -73,10 +73,21 @@ chmod +x /mnt/ramroot/write.sh
 
 cd /mnt/ramroot
 pivot_root . old_root || echo "pivot_root failed, continuing with chroot"
-sleep 1
-# Ngắt toàn bộ liên kết với hệ thống cũ để tránh lỗi
-umount -l /old_root/{dev,proc,sys} 2>/dev/null || true
+sleep 2
+# Dừng toàn bộ tiến trình còn giữ ổ đĩa
+for pid in $(lsof | grep '/dev/vda' | awk '{print $2}' | sort -u); do
+  kill -9 "$pid" 2>/dev/null || true
+done
+sleep 2
+# Lazy unmount toàn bộ hệ thống cũ
+umount -l /old_root/dev 2>/dev/null || true
+umount -l /old_root/proc 2>/dev/null || true
+umount -l /old_root/sys 2>/dev/null || true
+umount -l /old_root/run 2>/dev/null || true
 umount -l /old_root 2>/dev/null || true
+sleep 2
+# Kiểm tra còn tiến trình nào giữ disk không
 fuser -k /dev/vda 2>/dev/null || true
 sleep 2
+# Ghi image
 chroot . /write.sh
