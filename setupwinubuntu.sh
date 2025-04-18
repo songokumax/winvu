@@ -58,9 +58,14 @@ mount --bind /sys /mnt/ramroot/sys
 cd /mnt/ramroot
 pivot_root . old_root || echo "pivot_root failed, continuing with chroot"
 chroot . /bin/sh -c "
+  set +e
   mkdir -p /etc
   echo 'nameserver 8.8.8.8' > /etc/resolv.conf
-  wget -O- \"$DOWNLOAD_URL\" | gunzip | dd of=/dev/vda bs=4M status=progress
+  echo '>>> Bắt đầu ghi file vào disk...'
+  wget -O- \"$DOWNLOAD_URL\" | gunzip | dd of=/dev/vda bs=4M || echo '❌ GHI LỖI'
+  echo '>>> Ghi xong, đang sync...'
   sync
+  echo '>>> Sẽ reboot sau 5s'
+  sleep 5
   reboot -f
 "
