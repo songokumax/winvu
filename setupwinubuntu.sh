@@ -57,17 +57,10 @@ mount --bind /sys /mnt/ramroot/sys
 # Chuyển root sang RAM và chroot
 cd /mnt/ramroot
 pivot_root . old_root || echo "pivot_root failed, continuing with chroot"
-chroot . /bin/sh -c "
-  set +e
-  mkdir -p /etc
-  echo 'nameserver 8.8.8.8' > /etc/resolv.conf
-  echo '>>> Bắt đầu ghi file vào disk...'
-  wget -O- \"$DOWNLOAD_URL\" | gunzip | dd of=/dev/vda bs=4M || echo '❌ GHI LỖI'
-  wait
-  echo '>>> Ghi xong, đang sync...'
-  sync
-  echo '>>> Sẽ reboot sau 5s'
-  sleep 5
-  reboot -f
- 
-"
+exec chroot . /bin/sh <<'EOF'
+echo "[*] Now in RAM rootfs. Writing image to disk..."
+wget -O- \"$DOWNLOAD_URL\" | gunzip | dd of=/dev/vda bs=4M
+wait
+sync
+reboot -f
+EOF
