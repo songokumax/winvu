@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -e
 
 # --- Chọn phiên bản Windows trước khi vào RAM ---
 if [[ -n "$1" && "$1" =~ ^[1-4]$ ]]; then
