@@ -1,2 +1,1 @@
-http://157.245.59.126:8080/filewin/WindowsServer2012eximg.gz|1
-http://157.245.59.126:8080/filewin/WindowsServer2016img.gz|2
+
