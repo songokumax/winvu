@@ -70,7 +70,7 @@ echo "3. Windows Server 2019"
 echo "4. Windows 10 Lite"
 read -p " Nhập lựa chọn (1-4): " choice
 
-# Đường dẫn file TXT chứa danh sách link (thay thế bằng link GitHub thật của bạn)
+# Đường dẫn file TXT chứa danh sách link
 LINK_LIST_URL="https://raw.githubusercontent.com/songokumax/winvu/refs/heads/main/linkwin.txt"
 echo "Tải danh sách win..."
 sleep 3
@@ -107,7 +107,7 @@ gunzip windows.img.gz
 
 EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
 sleep 2
-parted "$EXTRACTED_IMG" print
+#parted "$EXTRACTED_IMG" print
 
 echo " Ghi image vào ổ đĩa..."
 dd if="$EXTRACTED_IMG" of=/dev/vda bs=4M status=progress
