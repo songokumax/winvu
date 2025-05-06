@@ -36,21 +36,21 @@ printf "%*s%s%s\n" "$left_pad" "" "$border" "$NC"
 echo "Update hệ thống..."
 pacman -Sy
 
-echo "Kiểm tra các phân vùng..."
-lsblk
+#echo "Kiểm tra các phân vùng..."
+#lsblk
 
-echo "Gắn phân vùng vào /mnt..."
+#1echo "Gắn phân vùng vào /mnt..."
 #mount /dev/vda2 /mnt
 # Kiểm tra nếu /dev/vda2 đã được mount thì unmount trước
 if mount | grep -q "/dev/vda2"; then
-    echo "ổ đĩa đang được mount, thực hiện umount..."
+    #1echo "ổ đĩa đang được mount, thực hiện umount..."
     umount /dev/vda2
     sleep 2
 fi
 
 # Kiểm tra nếu /mnt đang có phân vùng nào mount thì cũng unmount luôn
 if mount | grep -q "on /mnt "; then
-    echo "/mnt đang có phân vùng được gắn, thực hiện umount /mnt..."
+    #1echo "/mnt đang có phân vùng được gắn, thực hiện umount /mnt..."
     umount /mnt
     sleep 1
 fi
@@ -61,7 +61,7 @@ mount /dev/vda2 /mnt
 
 sleep 2
 cd /mnt
-ls
+#ls
 
 echo "Vui lòng chọn phiên bản Windows Server để tải:"
 echo "1. Windows Server 2012 R2"
@@ -117,7 +117,7 @@ rm -f "$EXTRACTED_IMG" linklist.txt
 
 cd
 
-echo " Tháo gắn kết /mnt..."
+#1echo " Tháo gắn kết /mnt..."
 umount /dev/vda2
 
-echo "Hoàn tất! Bạn có thể khởi động lại máy."
+echo "Hoàn tất! Bạn có thể thoát và remove iso."
