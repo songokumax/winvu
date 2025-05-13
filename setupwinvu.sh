@@ -37,7 +37,7 @@ echo "Update hệ thống..."
 pacman -Sy
 
 #echo "Kiểm tra các phân vùng..."
-#lsblk
+lsblk
 
 #1echo "Gắn phân vùng vào /mnt..."
 #mount /dev/vda2 /mnt
@@ -107,11 +107,12 @@ gunzip windows.img.gz
 
 EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
 sleep 2
-#parted "$EXTRACTED_IMG" print
+parted "$EXTRACTED_IMG" print
 
 echo " Ghi image vào ổ đĩa..."
+sleep 2
 dd if="$EXTRACTED_IMG" of=/dev/vda bs=4M status=progress
-
+sleep 2
 echo "Dọn dẹp..."
 rm -f "$EXTRACTED_IMG" linklist.txt
 
