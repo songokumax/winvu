@@ -102,7 +102,7 @@ echo "Đang tải file từ: $DOWNLOAD_URL"
 sleep 3
 wget -O /mnt/windows.img.gz "$DOWNLOAD_URL"
 
-echo "Giải nén file..."
+echo "Giải nén file (2-3p)..."
 gunzip windows.img.gz
 
 EXTRACTED_IMG=$(ls *.img *.iso 2>/dev/null | head -n 1)
