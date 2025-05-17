@@ -35,6 +35,31 @@ printf "%*s%s%s\n" "$left_pad" "" "$border" "$NC"
 #echo "Script By Thanh Quang Nguyen"
 echo "Update hệ thống..."
 pacman -Sy
+sleep 2
+echo "Kiểm tra dung lượng phân bổ ổ đĩa..."
+sleep 2
+# Lấy kích thước của đĩa chính và phân vùng vda2 (đơn vị: bytes)
+disk_size=$(lsblk -bno SIZE /dev/vda)
+sleep 2
+vda2_size=$(lsblk -bno SIZE /dev/vda2)
+sleep 2
+# Nếu vda2 nhỏ hơn disk trên 3 GiB, tiến hành mở rộng
+if (( vda2_size + 3221225472 < disk_size )); then
+    echo "Phân vùng chưa dùng hết đĩa, mở rộng nó, vui lòng đợi 2-3p..."
+    sleep 1
+    #if ! command -v growpart &>/dev/null; then
+    #    echo "Cài đặt gói cloud-utils để có lệnh growpart..."
+    #    pacman -Sy --noconfirm cloud-utils
+    #fi
+
+    growpart /dev/vda 2
+    sleep 2
+    #e2fsck -f /dev/vda2
+    resize2fs /dev/vda2
+    sleep 2
+else
+    echo "Dung lượng đã gần bằng tổng đĩa, bỏ qua mở rộng."
+fi
 
 #echo "Kiểm tra các phân vùng..."
 #lsblk
