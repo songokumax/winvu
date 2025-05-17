@@ -39,9 +39,9 @@ sleep 2
 echo "Kiểm tra dung lượng phân bổ ổ đĩa..."
 sleep 2
 # Lấy kích thước của đĩa chính và phân vùng vda2 (đơn vị: bytes)
-disk_size=$(lsblk -bno SIZE /dev/vda)
+disk_size=$(lsblk -bno SIZE /dev/vda | tr -d '[:space:]')
 sleep 2
-vda2_size=$(lsblk -bno SIZE /dev/vda2)
+vda2_size=$(lsblk -bno SIZE /dev/vda2 | tr -d '[:space:]')
 sleep 2
 # Nếu vda2 nhỏ hơn disk trên 3 GiB, tiến hành mở rộng
 if (( vda2_size + 3221225472 < disk_size )); then
