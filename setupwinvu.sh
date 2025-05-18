@@ -44,17 +44,10 @@ sleep 2
 vda2_size=$(lsblk -bno SIZE /dev/vda2 | tr -dc '0-9')
 sleep 2
 # Nếu vda2 nhỏ hơn disk trên 3 GiB, tiến hành mở rộng
-if (( vda2_size + 3221225472 < disk_size )); then
+if (( disk_size > vda2_size + 3221225472 )); then
     echo "Phân vùng chưa dùng hết đĩa, đang mở rộng nó, vui lòng đợi 2-3p..."
-    sleep 1
-    #if ! command -v growpart &>/dev/null; then
-    #    echo "Cài đặt gói cloud-utils để có lệnh growpart..."
-    #    pacman -Sy --noconfirm cloud-utils
-    #fi
-
     growpart /dev/vda 2
     sleep 2
-    #e2fsck -f /dev/vda2
     resize2fs /dev/vda2
     sleep 2
 else
