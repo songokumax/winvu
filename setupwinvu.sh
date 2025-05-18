@@ -44,12 +44,12 @@ sleep 2
 #vda2_size=$(lsblk -bno SIZE /dev/vda2 | tr -dc '0-9')
 #sleep 2
 # Nếu vda2 nhỏ hơn disk trên 3 GiB, tiến hành mở rộng
-#if (( disk_size > vda2_size + 3221225472 )); then
-    #echo "Phân vùng chưa dùng hết đĩa, đang mở rộng nó, vui lòng đợi 2-3p..."
-   # growpart /dev/vda 2
-   # sleep 2
+#diff=$(echo "$disk_size - $vda2_size" | bc)
+
+#if (( diff > 3221225472 )); then
+  #  echo "Phân vùng chưa dùng hết đĩa, đang mở rộng nó, vui lòng đợi 2-3p..."
+  #  growpart /dev/vda 2
    # resize2fs /dev/vda2
-    #sleep 2
 #else
    # echo "Dung lượng đã gần bằng tổng đĩa, bỏ qua mở rộng."
 #fi
