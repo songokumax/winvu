@@ -36,23 +36,23 @@ printf "%*s%s%s\n" "$left_pad" "" "$border" "$NC"
 echo "Update hệ thống..."
 pacman -Sy
 sleep 2
-echo "Kiểm tra dung lượng phân bổ ổ đĩa..."
-sleep 2
+#echo "Kiểm tra dung lượng phân bổ ổ đĩa..."
+#sleep 2
 # Lấy kích thước của đĩa chính và phân vùng vda2 (đơn vị: bytes)
-disk_size=$(lsblk -bno SIZE /dev/vda | tr -dc '0-9')
-sleep 2
-vda2_size=$(lsblk -bno SIZE /dev/vda2 | tr -dc '0-9')
-sleep 2
+#disk_size=$(lsblk -bno SIZE /dev/vda | tr -dc '0-9')
+#sleep 2
+#vda2_size=$(lsblk -bno SIZE /dev/vda2 | tr -dc '0-9')
+#sleep 2
 # Nếu vda2 nhỏ hơn disk trên 3 GiB, tiến hành mở rộng
-if (( disk_size > vda2_size + 3221225472 )); then
-    echo "Phân vùng chưa dùng hết đĩa, đang mở rộng nó, vui lòng đợi 2-3p..."
-    growpart /dev/vda 2
-    sleep 2
-    resize2fs /dev/vda2
-    sleep 2
-else
-    echo "Dung lượng đã gần bằng tổng đĩa, bỏ qua mở rộng."
-fi
+#if (( disk_size > vda2_size + 3221225472 )); then
+    #echo "Phân vùng chưa dùng hết đĩa, đang mở rộng nó, vui lòng đợi 2-3p..."
+   # growpart /dev/vda 2
+   # sleep 2
+   # resize2fs /dev/vda2
+    #sleep 2
+#else
+   # echo "Dung lượng đã gần bằng tổng đĩa, bỏ qua mở rộng."
+#fi
 
 #echo "Kiểm tra các phân vùng..."
 #lsblk
