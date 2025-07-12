@@ -33,9 +33,11 @@ printf "%*s|%*s%s%*s|\n" "$left_pad" "" "$text_pad" "" "$text" "$text_pad" ""
 printf "%*s%s%s\n" "$left_pad" "" "$border" "$NC"
 
 #echo "Script By Thanh Quang Nguyen"
-echo "Update hệ thống..."
-pacman -Sy
-sleep 2
+
+#echo "Update hệ thống..."
+#pacman -Sy
+#sleep 2
+
 #echo "Kiểm tra dung lượng phân bổ ổ đĩa..."
 #sleep 2
 # Lấy kích thước của đĩa chính và phân vùng vda2 (đơn vị: bytes)
