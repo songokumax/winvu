@@ -1,5 +1,5 @@
 #!/bin/bash
-
+export DEBIAN_FRONTEND=noninteractive
 set -e
 
 echo "🔧 Đang cài đặt 3proxy..."
