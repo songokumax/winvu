@@ -1,63 +1,84 @@
 #!/bin/bash
 
+set -e
 
-USERNAME="uhynSHnaocy"  #để user theo ý bạn
-PASSWORD="Nsug*a5AGdyyvtxrgao"  #để pass theo ý bạn
-PORTS=(40003 40004 40005 40006)  # Danh sách port, thay đổi theo nhu cầu
+echo "🔧 Đang cài đặt 3proxy..."
 
-apt update && apt install -y git build-essential wget iptables-persistent
+apt update && apt install -y git make gcc ufw curl || true
+sleep 2
 
-cd /opt
-git clone https://github.com/z3APA3A/3proxy.git
-cd 3proxy
-
+# Clone và build
+cd /opt || exit
+git clone https://github.com/z3APA3A/3proxy.git || true
+cd 3proxy || exit
 make -f Makefile.Linux
 
-mkdir -p /etc/3proxy /var/log/3proxy
-cp ./src/3proxy /usr/bin/
+# Copy file nhị phân
+mkdir -p /etc/3proxy/logs
+cp ./bin/3proxy /usr/local/bin/
+chmod +x /usr/local/bin/3proxy
 
-cat > /etc/3proxy/3proxy.cfg <<EOF
-daemon
-maxconn 200
+# Thông tin người dùng & danh sách port
+USERNAME="bgsydushac"
+PASSWORD="Nhgd*a5gatAGauneis"
+PORT_LIST=(40001 40003 40005 40008 40100)
+
+CONFIG_FILE="/etc/3proxy/3proxy.cfg"
+
+# Lấy địa chỉ IP công cộng
+SERVER_IP=$(curl -s ipv4.icanhazip.com)
+
+echo "⚙️ Đang tạo file cấu hình 3proxy..."
+sleep 1
+
+cat <<EOF > $CONFIG_FILE
+nserver 8.8.8.8
+nserver 1.1.1.1
 nscache 65536
 timeouts 1 5 30 60 180 1800 15 60
+
+auth strong
 users $USERNAME:CL:$PASSWORD
 EOF
 
-for PORT in "${PORTS[@]}"
-do
-    echo "auth strong" >> /etc/3proxy/3proxy.cfg
-    echo "allow $USERNAME" >> /etc/3proxy/3proxy.cfg
-    echo "proxy -n -a -p$PORT -i0.0.0.0 -e0.0.0.0" >> /etc/3proxy/3proxy.cfg
+for PORT in "${PORT_LIST[@]}"; do
+    echo "allow $USERNAME" >> $CONFIG_FILE
+    echo "socks -p$PORT -i$SERVER_IP -e$SERVER_IP" >> $CONFIG_FILE
 done
 
-cat > /etc/systemd/system/3proxy.service <<EOF
+echo "flush" >> $CONFIG_FILE
+
+# Tạo systemd service
+echo "🛠️ Tạo systemd service..."
+
+cat <<EOF > /etc/systemd/system/3proxy.service
 [Unit]
-Description=3Proxy Proxy Server
+Description=3proxy Proxy Server
 After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/3proxy /etc/3proxy/3proxy.cfg
+ExecStart=/usr/local/bin/3proxy /etc/3proxy/3proxy.cfg
 ExecReload=/bin/kill -HUP \$MAINPID
-KillMode=process
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
-for PORT in "${PORTS[@]}"
-do
-    ufw allow $PORT/tcp
-    iptables -I INPUT -p tcp --dport $PORT -j ACCEPT
+# Khởi động dịch vụ
+systemctl daemon-reload
+systemctl enable 3proxy || true
+systemctl restart 3proxy || true
+
+# Mở port firewall
+echo "🚪 Mở các port trên firewall..."
+for PORT in "${PORT_LIST[@]}"; do
+    ufw allow $PORT/tcp || true
 done
 
-netfilter-persistent save
-
-systemctl daemon-reexec
-systemctl daemon-reload
-systemctl enable 3proxy
-systemctl start 3proxy
-
-echo "✅ Đã cài đặt xong proxy với user/pass và các port: ${PORTS[*]}"
+echo "✅ Cài đặt hoàn tất!"
+echo "🔐 Proxy SOCKS5 chạy trên IP: $SERVER_IP"
+echo "➡️ Ports: ${PORT_LIST[*]}"
+echo "👤 User: $USERNAME"
+echo "🔑 Pass: $PASSWORD"
