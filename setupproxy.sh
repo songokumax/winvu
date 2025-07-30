@@ -4,18 +4,18 @@ set -e
 
 echo "🔧 Đang cài đặt 3proxy..."
 
-apt update && apt install -y git make gcc ufw curl || true
+apt update > /dev/null 2>&1 && apt install -y git make gcc ufw curl > /dev/null 2>&1 || true
 sleep 2
 
 # Clone và build
 cd /opt || exit
-git clone https://github.com/z3APA3A/3proxy.git || true
+git clone https://github.com/z3APA3A/3proxy.git > /dev/null 2>&1 || true
 cd 3proxy || exit
-make -f Makefile.Linux
+make -f Makefile.Linux > /dev/null 2>&1
 
 # Copy file nhị phân
 mkdir -p /etc/3proxy/logs
-cp ./bin/3proxy /usr/local/bin/
+cp ./bin/3proxy /usr/local/bin/ > /dev/null 2>&1
 chmod +x /usr/local/bin/3proxy
 
 # Thông tin người dùng & danh sách port
