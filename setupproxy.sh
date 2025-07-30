@@ -6,7 +6,7 @@ if command -v 3proxy >/dev/null 2>&1; then
     echo "✅ 3proxy đã được cài đặt trên hệ thống."
     exit 0
 fi
-echo "🔧 Đang cài đặt 3proxy..."
+echo "🔧 Đang cài đặt 3proxy, vui lòng đợi..."
 
 apt update > /dev/null 2>&1 && apt install -y git make gcc ufw curl > /dev/null 2>&1 || true
 sleep 2
