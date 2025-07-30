@@ -11,11 +11,14 @@ sleep 2
 cd /opt || exit
 git clone https://github.com/z3APA3A/3proxy.git > /dev/null 2>&1 || true
 cd 3proxy || exit
+sleep 2
 make -f Makefile.Linux > /dev/null 2>&1
-
+sleep 2
 # Copy file nhị phân
 mkdir -p /etc/3proxy/logs
+sleep 2
 cp ./bin/3proxy /usr/local/bin/ > /dev/null 2>&1
+sleep 2
 chmod +x /usr/local/bin/3proxy
 
 # Thông tin người dùng & danh sách port
@@ -47,7 +50,7 @@ for PORT in "${PORT_LIST[@]}"; do
 done
 
 echo "flush" >> $CONFIG_FILE
-
+sleep 2
 # Tạo systemd service
 echo "🛠️ Tạo systemd service..."
 
@@ -65,10 +68,13 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
-
+sleep 2
 # Khởi động dịch vụ
+sleep 1
 systemctl daemon-reload > /dev/null 2>&1
+sleep 1
 systemctl enable 3proxy > /dev/null 2>&1 || true
+sleep 1
 systemctl restart 3proxy || true
 
 # Mở port firewall
