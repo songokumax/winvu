@@ -21,7 +21,7 @@ chmod +x /usr/local/bin/3proxy
 # Thông tin người dùng & danh sách port
 USERNAME="bgsydushac"
 PASSWORD="Nhgd*a5gatAGauneis"
-PORT_LIST=(40001 40003 40005 40008 40100)
+PORT_LIST=(40001 40003)
 
 CONFIG_FILE="/etc/3proxy/3proxy.cfg"
 
