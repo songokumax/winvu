@@ -2,12 +2,7 @@
 export DEBIAN_FRONTEND=noninteractive
 set -e
 sleep 1
-# Kiểm tra nếu file cấu hình đã tồn tại thì thoát
-if [ -f /etc/3proxy/3proxy.cfg ]; then
-    echo "✅ 3proxy đã được cài đặt trước đó. Thoát."
-    exit 0
-fi
-sleep 1
+
 echo "🔧 Đang cài đặt 3proxy..."
 
 apt update > /dev/null 2>&1 && apt install -y git make gcc ufw curl > /dev/null 2>&1 || true
