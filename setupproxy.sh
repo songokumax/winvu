@@ -71,19 +71,18 @@ WantedBy=multi-user.target
 EOF
 sleep 2
 # Khởi động dịch vụ
-sleep 1
 systemctl daemon-reload > /dev/null 2>&1
 sleep 1
 systemctl enable 3proxy > /dev/null 2>&1 || true
 sleep 1
 systemctl restart 3proxy || true
-
+sleep 2
 # Mở port firewall
 echo "🚪 Mở các port trên firewall..."
 for PORT in "${PORT_LIST[@]}"; do
     ufw allow $PORT/tcp || true
 done
-
+sleep 2
 echo "✅ Cài đặt hoàn tất!"
 #echo "🔐 Proxy SOCKS5 chạy trên IP: $SERVER_IP"
 #echo "➡️ Ports: ${PORT_LIST[*]}"
