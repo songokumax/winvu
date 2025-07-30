@@ -78,7 +78,7 @@ for PORT in "${PORT_LIST[@]}"; do
 done
 
 echo "✅ Cài đặt hoàn tất!"
-echo "🔐 Proxy SOCKS5 chạy trên IP: $SERVER_IP"
-echo "➡️ Ports: ${PORT_LIST[*]}"
-echo "👤 User: $USERNAME"
-echo "🔑 Pass: $PASSWORD"
+#echo "🔐 Proxy SOCKS5 chạy trên IP: $SERVER_IP"
+#echo "➡️ Ports: ${PORT_LIST[*]}"
+#echo "👤 User: $USERNAME"
+#echo "🔑 Pass: $PASSWORD"
