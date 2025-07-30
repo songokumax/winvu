@@ -67,8 +67,8 @@ WantedBy=multi-user.target
 EOF
 
 # Khởi động dịch vụ
-systemctl daemon-reload
-systemctl enable 3proxy || true
+systemctl daemon-reload > /dev/null 2>&1
+systemctl enable 3proxy > /dev/null 2>&1 || true
 systemctl restart 3proxy || true
 
 # Mở port firewall
