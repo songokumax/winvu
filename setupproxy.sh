@@ -2,9 +2,8 @@
 export DEBIAN_FRONTEND=noninteractive
 set -e
 sleep 1
-# Kiểm tra nếu file cấu hình đã tồn tại thì thoát
-if [ -f /etc/3proxy/3proxy.cfg ]; then
-    echo "✅ 3proxy đã được cài đặt trước đó."
+if command -v 3proxy >/dev/null 2>&1; then
+    echo "✅ 3proxy đã được cài đặt trên hệ thống."
     exit 0
 fi
 echo "🔧 Đang cài đặt 3proxy..."
