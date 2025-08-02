@@ -6,18 +6,18 @@ START_PORT=10000                # Port bắt đầu
 USER_PASS_LIST=("user1:pass1" "user2:pass2")   # Danh sách user
 CONFIG_PATH="/usr/local/3proxy"
 BIN_PATH="/usr/local/3proxy/bin"
-
+IFACE=$(ip -6 route show default | awk '{print $5}' | head -n1)
 
 echo "========================"
 echo "📦 Cài đặt 3proxy"
 echo "========================"
 
-apt update -qq && apt install -y gcc make wget curl net-tools unzip build-essential
+apt update -qq && apt install -y git gcc make curl net-tools build-essential
 
 cd /opt
-wget -q https://github.com/z3APA3A/3proxy/archive/refs/heads/master.zip
-unzip -qo master.zip
-cd 3proxy-master
+rm -rf 3proxy || true
+git clone https://github.com/z3APA3A/3proxy.git > /dev/null 2>&1 || true
+cd 3proxy
 make -f Makefile.Linux
 mkdir -p "$BIN_PATH"
 cp src/3proxy "$BIN_PATH/"
@@ -45,7 +45,7 @@ PORT_LIST=()
 for ((i=0; i<COUNT; i++)); do
     IPV6=$(gen_ipv6)
     PORT=$((START_PORT + i))
-    ip -6 addr add "$IPV6"/64 dev "$IFACE"
+    ip -6 addr add "$IPV6"/64 dev "$IFACE" preferred_lft 0 valid_lft forever deprecated || true
     IP_LIST+=("$IPV6")
     PORT_LIST+=("$PORT")
 done
