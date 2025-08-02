@@ -7,38 +7,6 @@ USER_PASS_LIST=("user1:pass1" "user2:pass2")   # Danh sách user
 CONFIG_PATH="/usr/local/3proxy"
 BIN_PATH="/usr/local/3proxy/bin"
 
-echo "========================"
-echo "🔎 Kiểm tra IPv6 hỗ trợ"
-echo "========================"
-
-# Kiểm tra IPv6 có tồn tại
-if ! ip -6 addr show scope global | grep -v "temporary" | grep -v "dynamic" | grep -q inet6; then
-    echo "❌ VPS không có IPv6. Dừng script."
-    exit 1
-fi
-
-# Lấy địa chỉ IPv6 đầu tiên
-TEST_IPV6=$(ip -6 addr show scope global | grep inet6 | head -n1 | awk '{print $2}' | cut -d'/' -f1)
-IFACE=$(ip -6 route show default | awk '{print $5}' | head -n1)
-
-# Gán thử 1 IPv6 random và kiểm tra outbound
-TEMP_IP="${TEST_IPV6%::*}:$(openssl rand -hex 2):$(openssl rand -hex 2):$(openssl rand -hex 2):$(openssl rand -hex 2)"
-echo "[+] Thử gán IPv6: $TEMP_IP"
-if ip -6 addr add "$TEMP_IP/64" dev "$IFACE" 2>/dev/null; then
-    echo "[+] Ping thử 2001:4860:4860::8888 (Google DNS)..."
-    PING_RESULT=$(ping -6 -c 2 -W 3 -I "$IFACE" 2001:4860:4860::8888 2>&1)
-    ip -6 addr del "$TEMP_IP/64" dev "$IFACE"
-
-    if echo "$PING_RESULT" | grep -q "0 received"; then
-        echo "❌ IPv6 không có outbound Internet. Dừng script."
-        exit 1
-    else
-        echo "✅ IPv6 có outbound Internet."
-    fi
-else
-    echo "❌ VPS không cho gán thêm IPv6. Dừng script."
-    exit 1
-fi
 
 echo "========================"
 echo "📦 Cài đặt 3proxy"
