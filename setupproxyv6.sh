@@ -18,9 +18,10 @@ cd /opt
 rm -rf 3proxy || true
 git clone https://github.com/z3APA3A/3proxy.git > /dev/null 2>&1 || true
 cd 3proxy
-make -f Makefile.Linux
+make -f Makefile.Linux all
+
 mkdir -p "$BIN_PATH"
-cp bin/3proxy "$BIN_PATH/"   # ✅ sửa lại đường dẫn nhị phân đúng
+cp ./bin/3proxy "$BIN_PATH/" || { echo "❌ Không tìm thấy binary 3proxy sau khi build."; exit 1; }
 
 echo "========================"
 echo "🌐 Lấy IPv6 prefix"
