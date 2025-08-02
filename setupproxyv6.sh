@@ -20,7 +20,7 @@ git clone https://github.com/z3APA3A/3proxy.git > /dev/null 2>&1 || true
 cd 3proxy
 make -f Makefile.Linux
 mkdir -p "$BIN_PATH"
-cp src/3proxy "$BIN_PATH/"
+cp bin/3proxy "$BIN_PATH/"   # ✅ sửa lại đường dẫn nhị phân đúng
 
 echo "========================"
 echo "🌐 Lấy IPv6 prefix"
