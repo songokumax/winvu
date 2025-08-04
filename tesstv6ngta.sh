@@ -21,6 +21,11 @@ install_3proxy() {
   local URL="https://github.com/z3APA3A/3proxy/archive/3proxy-0.8.6.tar.gz"
   wget -qO- "$URL" | bsdtar -xvf- || { echo "Lỗi: Tải 3proxy thất bại"; exit 1; }
   cd 3proxy-3proxy-0.8.6 || { echo "Lỗi: Không thể chuyển vào thư mục 3proxy"; exit 1; }
+
+  # 👉 Sửa lỗi multiple definition của biến 'authnserver'
+  sed -i 's/^int authnserver;/extern int authnserver;/' src/proxy.h
+  echo "int authnserver = 0;" >> src/3proxy.c
+
   make -f Makefile.Linux || { echo "Lỗi: Biên dịch 3proxy thất bại"; exit 1; }
   mkdir -p /usr/local/etc/3proxy/{bin,logs,stat} || { echo "Lỗi: Không thể tạo thư mục 3proxy"; exit 1; }
   cp src/3proxy /usr/local/etc/3proxy/bin/ || { echo "Lỗi: Không thể copy file 3proxy"; exit 1; }
@@ -29,6 +34,7 @@ install_3proxy() {
   systemctl enable 3proxy || { echo "Lỗi: Không thể bật dịch vụ 3proxy"; exit 1; }
   cd "$WORKDIR"
 }
+
 
 gen_3proxy() {
   local tmp_config=$(mktemp)
