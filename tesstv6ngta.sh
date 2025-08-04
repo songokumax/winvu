@@ -118,7 +118,7 @@ gen_ifconfig() {
 }
 
 printf "Đang cài đặt các ứng dụng...\n"
-yum -y install gcc net-tools bsdtar zip >/dev/null || { echo "Lỗi: Cài đặt ứng dụng thất bại"; exit 1; }
+yum -y install gcc net-tools bsdtar zip wget >/dev/null || { echo "Lỗi: Cài đặt ứng dụng thất bại"; exit 1; }
 
 install_3proxy
 
