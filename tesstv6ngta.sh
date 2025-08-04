@@ -24,7 +24,6 @@ install_3proxy() {
 
   # 👉 Sửa lỗi multiple definition của biến 'authnserver'
   sed -i 's/^struct nserver authnserver;/extern struct nserver authnserver;/' src/proxy.h
-  echo "struct nserver authnserver = {0};" >> src/3proxy.c
 
   make -f Makefile.Linux || { echo "Lỗi: Biên dịch 3proxy thất bại"; exit 1; }
   mkdir -p /usr/local/etc/3proxy/{bin,logs,stat} || { echo "Lỗi: Không thể tạo thư mục 3proxy"; exit 1; }
@@ -34,6 +33,7 @@ install_3proxy() {
   systemctl enable 3proxy || { echo "Lỗi: Không thể bật dịch vụ 3proxy"; exit 1; }
   cd "$WORKDIR"
 }
+
 
 
 
