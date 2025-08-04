@@ -28,11 +28,30 @@ install_3proxy() {
   make -f Makefile.Linux || { echo "Lỗi: Biên dịch 3proxy thất bại"; exit 1; }
   mkdir -p /usr/local/etc/3proxy/{bin,logs,stat} || { echo "Lỗi: Không thể tạo thư mục 3proxy"; exit 1; }
   cp src/3proxy /usr/local/etc/3proxy/bin/ || { echo "Lỗi: Không thể copy file 3proxy"; exit 1; }
-  cp ./scripts/rc.d/proxy.sh /etc/init.d/3proxy || { echo "Lỗi: Không thể copy file khởi động 3proxy"; exit 1; }
-  chmod +x /etc/init.d/3proxy || { echo "Lỗi: Không thể cấp quyền cho file khởi động 3proxy"; exit 1; }
-  systemctl enable 3proxy || { echo "Lỗi: Không thể bật dịch vụ 3proxy"; exit 1; }
+
+  # 👉 Thay vì dùng init.d, dùng systemd
+  cat >/etc/systemd/system/3proxy.service <<EOF
+[Unit]
+Description=3proxy Proxy Server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/etc/3proxy/bin/3proxy /usr/local/etc/3proxy/3proxy.cfg
+Restart=always
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+  systemctl daemon-reexec
+  systemctl daemon-reload
+  systemctl enable 3proxy || { echo "Lỗi: Không thể enable dịch vụ 3proxy"; exit 1; }
+
   cd "$WORKDIR"
 }
+
 
 
 
