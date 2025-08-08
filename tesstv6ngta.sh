@@ -2,7 +2,7 @@
 export DEBIAN_FRONTEND=noninteractive
 set -e
 sleep 1
-sudo apt install -y ufw && sudo ufw enable > /dev/null 2>&1 || true
+
 if command -v 3proxy >/dev/null 2>&1; then
     echo "✅ 3proxy đã được cài đặt trên hệ thống."
     IP_FILE="/root/ipv6_goc.list"
@@ -31,6 +31,7 @@ if command -v 3proxy >/dev/null 2>&1; then
     fi
     exit 0
 fi
+( sudo apt install -y ufw && yes | sudo ufw enable ) > /dev/null 2>&1 || true
 echo "🔧 Đang cài đặt 3proxy, vui lòng đợi..."
 cd /opt > /dev/null 2>&1 || true
 git clone https://github.com/z3APA3A/3proxy.git > /dev/null 2>&1 || true
