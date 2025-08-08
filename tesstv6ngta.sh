@@ -24,11 +24,11 @@ if command -v 3proxy >/dev/null 2>&1; then
     IP_FILE="/root/ipv6_goc.list"
     IFACE=$(ip -6 route get 2001:4860:4860::8888 | awk '{for(i=1;i<=NF;i++) if($i=="dev") print $(i+1)}')
     get_current_ipv6() {
-        ip -6 addr show dev "$IFACE" | grep "inet6" | awk '{print $2}' > /dev/null 2>&1 || true
+        ip -6 addr show dev "$IFACE" | grep "inet6" | awk '{print $2}'
     }
     if [ -f "$IP_FILE" ]; then
-        mapfile -t GOC_IPV6 < "$IP_FILE" > /dev/null 2>&1 || true
-        mapfile -t CUR_IPV6 < <(get_current_ipv6) > /dev/null 2>&1 || true
+        mapfile -t GOC_IPV6 < "$IP_FILE"
+        mapfile -t CUR_IPV6 < <(get_current_ipv6)
         echo "🧹 Đang dọn các IPv6 phụ và đóng port(nếu có,)..."
         for ip in "\${CUR_IPV6[@]}"; do
             keep=false
