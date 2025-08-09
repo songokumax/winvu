@@ -25,7 +25,7 @@ EOF
 
 
 echo "allow uuuuuuuuu" >> $CONFIG
- echo "" >> $CONFIG
+#echo "" >> $CONFIG
 
 gen_ipv6() {
   printf "%x:%x:%x:%x" $((RANDOM%65536)) $((RANDOM%65536)) $((RANDOM%65536)) $((RANDOM%65536))
