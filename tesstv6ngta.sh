@@ -39,9 +39,9 @@ while [ $i -lt $PROXY_COUNT ]; do
   ufw allow $PORT/tcp > /dev/null 2>&1 || true
   
   if [ "$PROXY_TYPE" = "socks5" ]; then
-    echo "socks -6 -n -a -p$PORT -i0.0.0.0 -e$IPV6_FULL" >> $CONFIG
+    echo "socks -6 -n -a -p$PORT -i0.0.0.0 -e::" >> $CONFIG
   else
-    echo "proxy -6 -n -a -p$PORT -i0.0.0.0 -e$IPV6_FULL" >> $CONFIG
+    echo "proxy -6 -n -a -p$PORT -i0.0.0.0 -e::" >> $CONFIG
   fi
   i=$((i+1))
 done
