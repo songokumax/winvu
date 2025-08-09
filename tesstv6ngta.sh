@@ -47,4 +47,3 @@ while [ $i -lt $PROXY_COUNT ]; do
 done
 sleep 2
 echo "✅ Đã xong, đợi restart 3proxy..."
-systemctl restart 3proxy > /dev/null 2>&1 || true
