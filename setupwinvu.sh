@@ -88,7 +88,13 @@ echo "1. Windows Server 2012 R2"
 echo "2. Windows Server 2016"
 echo "3. Windows Server 2019"
 echo "4. Windows 10 Lite"
-read -p " Nhập lựa chọn (1-4): " choice
+echo "5. Windows 10 Pro"
+read -p " Nhập lựa chọn (1-5): " choice
+
+if [[ ! "$choice" =~ ^[1-5]$ ]]; then
+    echo "Lựa chọn không hợp lệ!"
+    exit 1
+fi
 
 # Đường dẫn file TXT chứa danh sách link
 LINK_LIST_URL="https://raw.githubusercontent.com/songokumax/winvu/refs/heads/main/linkwin.txt"
